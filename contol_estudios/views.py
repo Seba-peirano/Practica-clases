@@ -15,3 +15,18 @@ def lista_estudiantes(request):
     context= contexto,
     )
     return http_responde
+
+def lista_cursos(request):
+    contexto={
+        "cursos":[
+            {"nombre":"python","comision":"12"},
+            {"nombre":"costura","comision":"1"},
+            {"nombre":"albañileria","comision":"3"},
+        ]
+    }
+    http_responde=render(
+    request= request,
+    template_name='contol_estudios/lista_cursos.html',
+    context= contexto,
+    )
+    return http_responde
