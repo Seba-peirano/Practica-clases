@@ -25,5 +25,5 @@ urlpatterns = [
     path("saludo-hoy", saludar_confecha),
     path("saludo-html", saludar_con_html),
     path("estudios/",include('contol_estudios.urls')),
-    path("",inicio),
+    path("",inicio, name="Inicio"),
 ]

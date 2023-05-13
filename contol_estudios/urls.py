@@ -17,9 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from contol_estudios.views import lista_estudiantes, lista_cursos
-
+from contol_estudios.views import lista_estudiantes, lista_cursos,formulario_crear_curso, buscar_cursos
 urlpatterns = [
-    path("estudiantes/",lista_estudiantes),
-    path("cursos/",lista_cursos),
+    path("estudiantes/",lista_estudiantes, name="lista_estudiantes"),
+    path("cursos/",lista_cursos, name="lista_cursos"),
+    path("crear-curso/",formulario_crear_curso, name="crear_curso" ),
+    path("buscar-curso/",buscar_cursos, name="buscar_curso" )
     ]
