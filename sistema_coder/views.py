@@ -2,6 +2,15 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from datetime import datetime
 
+def inicio(request):
+    contexto={}
+    http_responde=render(
+        request=request,
+        template_name='contol_estudios/index.html',
+        context=contexto,
+    )
+    return http_responde
+
 def saludar(request):
     saludo="hola querido usario"
     pagina_html=HttpResponse(saludo)
