@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.urls import reverse
 from contol_estudios.models import Estudiante, Curso
-from contol_estudios.forms import CursoFormulario
+from contol_estudios.forms import *
 
 def lista_estudiantes(request):
     contexto={
@@ -63,4 +63,40 @@ def buscar_cursos(request):
             )
         return http_response
 
+def formulario_crear_estudiante(request):
+    if request.method == "POST":
+        formulario=EstudianteFormulario(request.POST)
 
+        if formulario.is_valid():
+            data=formulario.cleaned_data
+            nombre= data["nombre"]
+            apellido=data["apellido"]
+            email=data["email"]
+            estudiante=Estudiante( nombre=nombre,apellido=apellido,email=email)
+            estudiante.save()
+            #redirecciono al usuario a la lista de estudiantes
+            url_exitosa=reverse('lista_estudiantes')
+            return redirect(url_exitosa)
+
+    else: #GET
+        formulario=EstudianteFormulario()
+        http_response=render(
+            request= request,
+            template_name='contol_estudios/formulario_crear_estudiante.html',
+            context= {'formulario': formulario},
+            )
+        return http_response
+def buscar_estudiantes(request):
+    if request.method == "POST":
+        data=request.POST
+        busqueda= data["busqueda"]
+        estudiante=Estudiante.objects.filter(apellido__contains=busqueda)
+        contexto={
+            "Estudiante": estudiante,
+        }
+        http_response=render(
+            request= request,
+            template_name='contol_estudios/lista_estudiantes.html',
+            context= contexto,
+            )
+        return http_response

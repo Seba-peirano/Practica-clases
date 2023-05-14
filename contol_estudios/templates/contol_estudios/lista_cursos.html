@@ -5,7 +5,7 @@
 <section>
     <div>
         <h1> Lista de cursos </h1>
-        <a href={% url 'lista_cursos' %} > Crear curso </a>
+        <a href={% url 'crear_curso' %} > Crear curso </a>
         <br><br>
         <form  action="{% url 'buscar_curso' %}" method="POST" >
             {% csrf_token %}
