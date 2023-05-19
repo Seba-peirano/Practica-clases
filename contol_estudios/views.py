@@ -1,19 +1,23 @@
 from django.shortcuts import render,redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from contol_estudios.models import Estudiante, Curso
 from contol_estudios.forms import *
+from django.views.generic import CreateView, ListView,DetailView,UpdateView,DeleteView
 
-def lista_estudiantes(request):
-    contexto={
-        "estudiantes": Estudiante.objects.all()
-    }
-    http_responde=render(
-    request= request,
-    template_name='contol_estudios/lista_estudiantes.html',
-    context= contexto,
-    )
-    return http_responde
+#no lo voy a usar, se va a reemplazar por clases basadas en vista
+#def lista_estudiantes(request):
+#    contexto={
+#        "estudiantes": Estudiante.objects.all()
+#    }
+#    http_responde=render(
+#    request= request,
+#    template_name='contol_estudios/lista_estudiantes.html',
+#    context= contexto,
+#    )
+#    return http_responde
 
+
+#vista de cursos
 def lista_cursos(request):
     contexto={
         "cursos": Curso.objects.all()
@@ -100,3 +104,59 @@ def buscar_estudiantes(request):
             context= contexto,
             )
         return http_response
+
+def eliminar_curso(request, id):
+    curso = Curso.objects.get(id=id)
+    if request.method == "POST":
+        curso.delete()
+        url_exitosa = reverse('lista_cursos')
+    return redirect(url_exitosa)
+
+def editar_curso(request, id):
+    curso = Curso.objects.get(id=id)
+    if request.method == "POST":
+        formulario = CursoFormulario(request.POST)
+        if formulario.is_valid():
+            data = formulario.cleaned_data
+            curso.nombre = data['nombre']
+            curso.comision = data['comision']
+            curso.save()
+            url_exitosa = reverse('lista_cursos')
+        return redirect(url_exitosa)
+    else: # GET
+        inicial = {
+         'nombre': curso.nombre,
+         'comision': curso.comision,
+            }
+        formulario = CursoFormulario(initial=inicial)
+        return render(
+        request=request,
+        template_name='contol_estudios/formulario_crear_curso.html',
+        context={'formulario': formulario},
+        )
+
+#Clases de estudiantes
+
+class EstudianteListView(ListView):
+    model = Estudiante
+    success_url=reverse_lazy('lista_estudiantes.html')
+
+class EstudianteCreateView(CreateView):
+    model = Estudiante
+    fields=('apellido', 'nombre', 'email', 'dni')
+    success_url=reverse_lazy('lista_estudiantes.html')
+class EstudianteDetailView(DetailView):
+    model = Estudiante
+    
+    #success_url=reverse_lazy('lista_estudiantes.html')
+
+class EstudianteUpdateView(UpdateView):
+    model = Estudiante
+    fields=('apellido', 'nombre', 'email', 'dni')
+    success_url=reverse_lazy('lista_estudiantes.html')
+    
+class EstudianteDeleteView(DeleteView):
+    model = Estudiante
+    fields=('apellido', 'nombre', 'email', 'dni')
+    success_url=reverse_lazy('lista_estudiantes.html')
+ 

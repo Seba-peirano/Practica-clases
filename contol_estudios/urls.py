@@ -19,10 +19,19 @@ from django.urls import path
 
 from contol_estudios.views import *
 urlpatterns = [
-    path("estudiantes/",lista_estudiantes, name="lista_estudiantes"),
+    #de cursos
     path("cursos/",lista_cursos, name="lista_cursos"),
     path("crear-curso/",formulario_crear_curso, name="crear_curso" ),
-    path("crear-estudiante/",formulario_crear_estudiante, name="crear_estudiante" ),
+    #path("crear-estudiante/",formulario_crear_estudiante, name="crear_estudiante" ),
     path("buscar-curso/",buscar_cursos, name="buscar_curso" ),
-    path("buscar-estudiante/",buscar_estudiantes, name="buscar_estudiante" )
+    path("buscar-estudiante/",buscar_estudiantes, name="buscar_estudiante" ),
+    path('eliminar-curso/<int:id>/',eliminar_curso, name="eliminar_curso"),
+    path('editar-curso/<int:id>/' , editar_curso, name= "editar_curso" ),
+    #de estudiantes
+    path('estudiantes/' , EstudianteListView.as_view() , name= "lista_estudiante" ),
+    path('estudiantes/<int:pk>/' , EstudianteDeleteView.as_view() , name= "ver_estudiante" ),
+    path('crear-estudiante/' , EstudianteCreateView.as_view() , name= "crear_estudiante" ),
+    path('editar-estudiantes/<int:pk>' , EstudianteUpdateView.as_view() , name= "editar_estudiante" ),
+    path('eliminar-estudiantes/<int:pk>' , EstudianteDeleteView.as_view() , name= "eliminar_estudiante" ),
+
     ]
