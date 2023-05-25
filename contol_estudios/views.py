@@ -139,7 +139,8 @@ def editar_curso(request, id):
 
 class EstudianteListView(ListView):
     model = Estudiante
-    success_url=reverse_lazy('lista_estudiantes.html')
+    template_name = 'lista_estudiantes.html'
+    
 
 class EstudianteCreateView(CreateView):
     model = Estudiante
