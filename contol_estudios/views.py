@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.urls import reverse
-from contol_estudios.models import Estudiante, Curso
+from contol_estudios.models import *
 from contol_estudios.forms import *
 
 def lista_estudiantes(request):
